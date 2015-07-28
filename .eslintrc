@@ -1,0 +1,18 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "it": true,
+    "assert": false
+  },
+  "rules": {
+    "quotes": [2, "single"],
+    "no-multi-str": 0,
+    "space-before-function-paren": [2, "never"],
+    "space-before-blocks": [2, "always"],
+    "no-debugger":0
+  }
+}

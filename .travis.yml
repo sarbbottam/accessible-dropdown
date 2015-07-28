@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- stable
+script:
+- npm test
+- npm run-script deploy
+env:
+  global:
+  - GH_REF: github.com/sarbbottam/accessible-dropdown
+  - secure: JWU9Vs/xEAlsCjXsS16623amTN+3vWZWAmNalGeHpIEmHRBCgBMZT2SpTASLOsm+HHLWtfFspnIvnfxm04LvCtMrt/2DJL9nSJ+c6jZt6c1vlmSLeQk6EEmPJkqgS55Frzo02fwiEXKZjkxCL6dtJPEAc7CKFniAeeVwbvVlEv0Ojp0GIm3kH7jCUjzThy1GyOc/3qk122UF4rlxz2vXA/ecYaxFsdjEno69xO1AfWj2kyg+QQ4FbjeGrqDxMDceXw+U1f+bJw4P4Ugb6yUtoSH9fX9UZdthqvjIW0mv1ytLsd+0iWXf4blSKlksswNKABHn/TMpQNWAZhcnpXS/xbMarhOp2OnJs59a6DECrI30RVMI45MIXALooiRLty1WlHnal2b91+Ro9AQvRzZcV7ZiTqfwQjEBpB9PTbfl7o6C662oJf5b7pTpax++zf2XI1sDhyZ/o4MQsPxgwK/kWtstjc5XZn1TLUB19C+ymenmhNylNJsOEzKHrmpL53V/RHrO1yEpFHaSq4jMT+YnftkkmQmRbwzx+GsAdKO2SPrnkc6FwPXImdqt/vumt6f/cStnXZ52g9ruoyWDPYQQNK0PMDdT23fgK+UFAazfMkmw8ncEoTZuOdsoEkAdatdjGGVvRVTEBDVJj73WYfUaMY1zJVm+aR+dQWIaWaPhwPU=
