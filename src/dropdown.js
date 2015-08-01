@@ -105,17 +105,14 @@ function optionsKeydownHandler(e) {
 
     switch(e.keyCode) {
       case 38:
-        if(this.selectedIndex <= 0) {
-          this.selectedIndex = menuSize;
+        if(this.selectedIndex > 0) {
+          this.selectedIndex -= 1;
         }
-        this.selectedIndex -= 1;
-
         break;
       case 40:
-        if(this.selectedIndex >= menuSize - 1) {
-          this.selectedIndex = -1;
+        if(this.selectedIndex < menuSize - 1) {
+          this.selectedIndex += 1;
         }
-        this.selectedIndex += 1;
         break;
     }
   }
