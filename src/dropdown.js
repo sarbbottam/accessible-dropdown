@@ -132,7 +132,8 @@ function optionsKeydownHandler(e) {
 }
 
 function optionsKeypressHandler(e) {
-
+  // http://stackoverflow.com/questions/7330724/event-keycode-not-returning-correct-values-in-firefox#answer-7330817
+  var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
   var desiredOptionIndex = 0;
   // halt for space and arrow keys
   e.preventDefault();
@@ -143,7 +144,7 @@ function optionsKeypressHandler(e) {
     this.desiredOptionStartsWith = '';
   }
   this.previousKeyPressTime = this.currentKeyPressTime;
-  this.desiredOptionStartsWith = this.desiredOptionStartsWith + String.fromCharCode(e.keyCode).toLowerCase();
+  this.desiredOptionStartsWith = this.desiredOptionStartsWith + String.fromCharCode(charCode).toLowerCase();
   // do not update the selectedindex if desiredOptionIndex is -1
   // firefox/windows hack, firefox/windows listening to up/down/right/left arrow keypress
   desiredOptionIndex = this.dictionary.getIndexOfDesiredOption(this.desiredOptionStartsWith);
