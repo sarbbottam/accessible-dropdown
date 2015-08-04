@@ -97,21 +97,50 @@ function selectOption(e) {
 function optionsKeydownHandler(e) {
   var menuSize;
 
-  // only interested for up and down arrow
-  if(e.keyCode === 38 || e.keyCode === 40) {
+  /*
+   * only interested in following keys
+   * up arrow: 38
+   * down arrow: 40
+   * end: 35
+   * home:  36
+   * page up: 33
+   * page down: 34
+   */
+
+  if(e.keyCode === 38 || e.keyCode === 40 ||
+      e.keyCode === 35 || e.keyCode === 36 ||
+      e.keyCode === 33 || e.keyCode === 34) {
     e.preventDefault();
     e.stopPropagation();
     menuSize = this.optionNodeList.length;
 
     switch(e.keyCode) {
-      case 38:
+      case 38: // up arrow
         if(this.selectedIndex > 0) {
           this.selectedIndex -= 1;
         }
         break;
-      case 40:
+      case 40: // down arrow
         if(this.selectedIndex < menuSize - 1) {
           this.selectedIndex += 1;
+        }
+        break;
+      case 35: // end
+        this.selectedIndex = menuSize - 1;
+        break;
+      case 36: // home
+        this.selectedIndex = 0;
+        break;
+      case 33: // page up
+        this.selectedIndex -= 5;
+        if(this.selectedIndex < 0) {
+          this.selectedIndex = 0;
+        }
+        break;
+      case 34: // page down
+        this.selectedIndex += 5;
+        if(this.selectedIndex < 0) {
+          this.selectedIndex = menuSize - 1;
         }
         break;
     }
