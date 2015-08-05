@@ -87,8 +87,8 @@ module.exports = function(grunt) {
 
     });
 
-    //grunt.task.run(['eslint', 'clean', 'karma:' + target, 'browserify']);
-    grunt.task.run(['eslint', 'clean', 'browserify']);
+    grunt.task.run(['eslint', 'clean', 'karma:' + target, 'browserify']);
+    //grunt.task.run(['eslint', 'clean', 'browserify']);
 
   });
 
