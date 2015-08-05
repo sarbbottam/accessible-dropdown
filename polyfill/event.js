@@ -13,6 +13,19 @@ function triggerKeydownEvent(element, keyCode) {
   element.dispatchEvent(event);
 }
 
+function triggerKeypressEvent(element, keyCode) {
+  var event = document.createEvent('Events');
+
+  if (event.initEvent) {
+    event.initEvent('keypress', true, true);
+  }
+
+  event.keyCode = keyCode;
+  event.which = keyCode;
+
+  element.dispatchEvent(event);
+}
+
 function triggerClickEvent(element) {
   var event = document.createEvent('MouseEvent');
 
@@ -30,7 +43,26 @@ function triggerClickEvent(element) {
   element.dispatchEvent(event);
 }
 
+function triggerMousemoveEvent(element) {
+  var event = document.createEvent('MouseEvent');
+
+  event.initMouseEvent(
+      'mousemove',
+      true, /* bubble */
+      true, /* cancelable */
+      window, null,
+      0, 0, 0, 0, /* coordinates */
+      false, false, false, false, /* modifier keys */
+      0,/*left*/
+      null
+  );
+
+  element.dispatchEvent(event);
+}
+
 module.exports = {
   triggerKeydownEvent: triggerKeydownEvent,
+  triggerKeypressEvent: triggerKeypressEvent,
+  triggerMousemoveEvent: triggerMousemoveEvent,
   triggerClickEvent: triggerClickEvent
 };
