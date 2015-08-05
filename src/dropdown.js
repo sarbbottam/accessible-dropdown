@@ -15,6 +15,7 @@ function Dropdown(config) {
 
   css = config.css;
 
+  /* istanbul ignore next */
   this.css = {
     hide: css && css.hide ? css.hide : 'hide',
     pseudoSelect: css && css.pseudoSelect ? css.pseudoSelect : 'pseudo-select',
@@ -22,6 +23,7 @@ function Dropdown(config) {
     options: css && css.options ? css.options : 'options'
   };
 
+  /* istanbul ignore next */
   this.dictionary = new Dictionary(config.optionList || []);
   this.template = new this.Template({
     selectNode: config.selectNode,
@@ -141,7 +143,7 @@ function optionsKeydownHandler(e) {
         break;
       case 34: // page down
         this.selectedIndex += 5;
-        if(this.selectedIndex < 0) {
+        if(this.selectedIndex >= menuSize) {
           this.selectedIndex = menuSize - 1;
         }
         break;
@@ -161,6 +163,7 @@ function optionsKeydownHandler(e) {
 
 function optionsKeypressHandler(e) {
   // http://stackoverflow.com/questions/7330724/event-keycode-not-returning-correct-values-in-firefox#answer-7330817
+  /* istanbul ignore next */
   var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
   var desiredOptionIndex = 0;
   // halt for space and arrow keys
@@ -223,6 +226,7 @@ function injectDropdownContainerNode() {
    * to wrap pseudoSelectNode & optionsContainerNode
    */
   dropdownContainerNode = document.createElement('div');
+  dropdownContainerNode.classList.add('dropdown-container');
 
   pseudoSelectNode = document.createElement('div');
   pseudoSelectNode.innerHTML = this.template.getPseudoSelectHTML();
