@@ -68,7 +68,9 @@ function hideOptions() {
   //}
 }
 
-function showHideOptionsContainerNode() {
+function showHideOptionsContainerNode(e) {
+  e.preventDefault();
+  e.stopPropagation();
   if(this.isVisible) {
     hideOptions.bind(this)();
   } else {
@@ -262,8 +264,7 @@ Dropdown.prototype.init = function() {
   this.optionsContainerNode.addEventListener('keydown', optionsKeydownHandler.bind(this));
   this.optionsContainerNode.addEventListener('keypress', optionsKeypressHandler.bind(this));
   this.optionsContainerNode.addEventListener('mousemove', optionsMousemoveHandler.bind(this));
-
-  document.addEventListener('click', hideOptions.bind(this), true);
+  document.addEventListener('click', hideOptions.bind(this), false);
 };
 
 module.exports = Dropdown;
