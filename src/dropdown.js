@@ -48,7 +48,7 @@ function focusOption() {
 }
 
 function showOptions() {
-  if(!this.isVisible) {
+  //if(!this.isVisible) {
     // reinitialize selected index from the actual selectNode
     // it would be used for keydown handler
     this.selectedIndex = this.selectNode.selectedIndex;
@@ -57,15 +57,15 @@ function showOptions() {
     // this query would also be passed as the config.
     focusOption.bind(this)();
     this.isVisible = true;
-  }
+  //}
 }
 
 function hideOptions() {
-  if(this.isVisible) {
+  //if(this.isVisible) {
     this.optionsContainerNode.classList.add(this.css.hide);
     this.pseudoSelectNode.querySelector('a').classList.remove(this.css.pseudoSelectFocus);
     this.isVisible = false;
-  }
+  //}
 }
 
 function showHideOptionsContainerNode() {
