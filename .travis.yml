@@ -4,6 +4,8 @@ node_js:
 script:
 - npm test
 - npm run-script deploy
+after_script:
+- npm run coveralls
 env:
   global:
   - GH_REF: github.com/sarbbottam/accessible-dropdown
