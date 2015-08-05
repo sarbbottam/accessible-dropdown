@@ -1,6 +1,11 @@
 'use strict';
 
-var CHANGE_EVENT = new Event('change');
+var CHANGE_EVENT;
+
+/* istanbul ignore next */
+if (typeof Event === 'function') {
+  CHANGE_EVENT = new Event('change');
+}
 
 var Template = require('./template');
 var Dictionary = require('./dictionary');
@@ -91,7 +96,10 @@ function selectOption(e) {
     this.pseudoSelectNode.innerHTML = this.template.getPseudoSelectHTML(option);
     this.selectNode.value = value;
     // dispatch change event on the selectNode
-    this.selectNode.dispatchEvent(CHANGE_EVENT);
+    /* istanbul ignore next */
+    if(CHANGE_EVENT) {
+      this.selectNode.dispatchEvent(CHANGE_EVENT);
+    }
   }
   // focus the anchor tag
   this.pseudoSelectNode.querySelector('a').focus();
