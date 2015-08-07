@@ -216,6 +216,7 @@ describe('Dropdown', function() {
     it('should hide the options if visible when esc is pressed', function() {
       event.triggerKeydownEvent(options, 27);
       assert.isTrue(options.classList.contains('hide'));
+      assert.equal(dropdownContainer.querySelector('.pseudo-select'), document.activeElement);
     });
 
     it('should hide the options if visible when esc is pressed', function() {
