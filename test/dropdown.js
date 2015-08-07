@@ -219,7 +219,7 @@ describe('Dropdown', function() {
       assert.equal(dropdownContainer.querySelector('.pseudo-select'), document.activeElement);
     });
 
-    it('should hide the options if visible when esc is pressed', function() {
+    it('should hide the options if visible when tab is pressed', function() {
       event.triggerKeydownEvent(options, 9);
       assert.isTrue(options.classList.contains('hide'));
     });
