@@ -165,6 +165,10 @@ function optionsKeydownHandler(e) {
     hideOptions.bind(this)();
   }
 
+  if(e.keyCode === 27) {
+    this.pseudoSelectNode.querySelector('a').focus();
+  }
+
   // this will be used in optionsMousemoveHandler
   this.event = e.type;
 }
