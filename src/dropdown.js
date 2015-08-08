@@ -47,7 +47,6 @@ function getOption(option) {
   return option;
 }
 
-
 function focusOption() {
   var selectedOption = this.optionNodeList[this.selectedIndex];
   selectedOption.focus();
@@ -55,12 +54,10 @@ function focusOption() {
 }
 
 function showOptions() {
-  // reinitialize selected index from the actual selectNode
-  // it would be used for keydown handler
+  // set selectedIndex to the selectedIndex the actual selectNode
   this.selectedIndex = this.selectNode.selectedIndex;
   this.optionsContainer.classList.remove(this.css.hide);
   this.pseudoSelectContainer.querySelector('a').classList.add(this.css.pseudoSelectFocus);
-  // this query would also be passed as the config.
   focusOption.bind(this)();
   this.isVisible = true;
 }
@@ -103,24 +100,28 @@ function selectOption(e) {
 }
 
 function optionsKeydownHandler(e) {
-  var menuSize;
+  var optionListLength;
 
   /*
    * only interested in following keys
-   * up arrow: 38
-   * down arrow: 40
-   * end: 35
-   * home:  36
-   * page up: 33
-   * page down: 34
+   * up arrow      38
+   * down arrow    40
+   * end           35
+   * home          36
+   * page up       33
+   * page down     34
+   * tab           9
+   * esc           27
    */
 
   if(e.keyCode === 38 || e.keyCode === 40 ||
       e.keyCode === 35 || e.keyCode === 36 ||
       e.keyCode === 33 || e.keyCode === 34) {
+
     e.preventDefault();
     e.stopPropagation();
-    menuSize = this.optionNodeList.length;
+
+    optionListLength = this.optionNodeList.length;
 
     switch(e.keyCode) {
       case 38: // up arrow
@@ -129,12 +130,12 @@ function optionsKeydownHandler(e) {
         }
         break;
       case 40: // down arrow
-        if(this.selectedIndex < menuSize - 1) {
+        if(this.selectedIndex < optionListLength - 1) {
           this.selectedIndex += 1;
         }
         break;
       case 35: // end
-        this.selectedIndex = menuSize - 1;
+        this.selectedIndex = optionListLength - 1;
         break;
       case 36: // home
         this.selectedIndex = 0;
@@ -147,8 +148,8 @@ function optionsKeydownHandler(e) {
         break;
       case 34: // page down
         this.selectedIndex += 5;
-        if(this.selectedIndex >= menuSize) {
-          this.selectedIndex = menuSize - 1;
+        if(this.selectedIndex >= optionListLength) {
+          this.selectedIndex = optionListLength - 1;
         }
         break;
     }
@@ -174,7 +175,7 @@ function optionsKeypressHandler(e) {
   /* istanbul ignore next */
   var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
   var desiredOptionIndex = 0;
-  // halt for space and arrow keys
+
   e.preventDefault();
   e.stopPropagation();
 
@@ -203,12 +204,10 @@ function pseudoSelectKeydownHandler(e) {
     e.stopPropagation();
     showOptions.bind(this)();
   }
-  //optionsKeydownHandler.bind(this)(e);
 }
 
-function pseudoSelectKeypressHandler(e) {
+function pseudoSelectKeypressHandler() {
   showOptions.bind(this)();
-  optionsKeydownHandler.bind(this)(e);
 }
 
 function optionsMousemoveHandler(e) {
@@ -219,50 +218,50 @@ function optionsMousemoveHandler(e) {
     this.selectedIndex = this.optionNodeList.indexOf(option);
   }
 
-  // this will be used in optionsMousemoveHandler
+  // this will be used in optionsMousemoveHandler (this function)
   this.event = e.type;
 }
 
-function injectDropdownContainerNode() {
+function injectDropdownContainer() {
 
-  var dropdownContainerNode;
+  var dropdownContainer;
   var pseudoSelectContainer;
   var optionsContainer;
 
   /*
-   * create a div (dropdownContainerNode) as the container
+   * create a div (dropdownContainer) as the container
    * to wrap pseudoSelectContainer & optionsContainer
    */
-  dropdownContainerNode = document.createElement('div');
-  dropdownContainerNode.classList.add('dropdown-container');
+  dropdownContainer = document.createElement('div');
+
+  /*
+   * required to test, if the container has been injected in the document
+   * should it be an id instead of a class?
+   */
+  dropdownContainer.classList.add('dropdown-container');
 
   pseudoSelectContainer = document.createElement('div');
   pseudoSelectContainer.innerHTML = this.template.getPseudoSelectHTML();
 
   optionsContainer = document.createElement('div');
-  /*
-   * ToDo:
-   * does not look clean
-   * need to revist
-   */
   optionsContainer.classList.add(this.css.hide);
   this.css.options.split(' ').forEach(function(css) {
-    optionsContainer.classList.add(css); // hook to add styles
+    optionsContainer.classList.add(css);
   });
   optionsContainer.innerHTML = this.template.getOptionsContainerHTML();
 
-  dropdownContainerNode.appendChild(pseudoSelectContainer);
-  dropdownContainerNode.appendChild(optionsContainer);
+  dropdownContainer.appendChild(pseudoSelectContainer);
+  dropdownContainer.appendChild(optionsContainer);
 
-  this.parentNode.appendChild(dropdownContainerNode);
+  this.parentNode.appendChild(dropdownContainer);
 
-  this.dropdownContainerNode = dropdownContainerNode;
+  this.dropdownContainer = dropdownContainer;
   this.pseudoSelectContainer = pseudoSelectContainer;
   this.optionsContainer = optionsContainer;
 }
 
 Dropdown.prototype.init = function() {
-  injectDropdownContainerNode.bind(this)();
+  injectDropdownContainer.bind(this)();
 
   this.optionNodeList = Array.prototype.slice.call(this.optionsContainer.querySelectorAll('a'));
 
@@ -276,6 +275,7 @@ Dropdown.prototype.init = function() {
   this.optionsContainer.addEventListener('keydown', optionsKeydownHandler.bind(this));
   this.optionsContainer.addEventListener('keypress', optionsKeypressHandler.bind(this));
   this.optionsContainer.addEventListener('mousemove', optionsMousemoveHandler.bind(this));
+
   document.addEventListener('click', hideOptions.bind(this), false);
 };
 
