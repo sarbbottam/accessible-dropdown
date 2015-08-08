@@ -20,7 +20,7 @@ Template.prototype.getPseudoSelectHTML = function(option) {
 
   label = this.title + ' ' + optionText;
 
-  pseudoSelectHTML.push('<a href="#" class="' + this.css.pseudoSelect + '" role="button" aria-haspopup="true" aria-label="' + label + '">');
+  pseudoSelectHTML.push('<a href="#" class="' + this.css.pseudoSelect + '" role="button" aria-haspopup="true" aria-expanded="false" aria-label="' + label + '">');
   pseudoSelectHTML.push(optionText);
   pseudoSelectHTML.push('</a>');
 
