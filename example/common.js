@@ -1,5 +1,6 @@
 var Dropdown = require('../src/dropdown');
-var Template = require('./template');
+var TemplateWithFlag = require('./template-with-flag');
+var TemplateWithFlagComposite = require('./template-with-flag-composite');
 
 var countryDropdown;
 var countrySelectNode = document.getElementById('country');
@@ -12,7 +13,6 @@ countryOptionNodeList.forEach(function(optionNode) {
 
 countryDropdown = new Dropdown({
   selectNode: countrySelectNode,
-  //Template: Template,
   optionList: countryOptionList,
   css : {
     hide : 'hide',
@@ -42,7 +42,7 @@ countryWithFlagOptionNodeList.forEach(function(optionNode) {
 
 countryWithFlagDropdown = new Dropdown({
   selectNode: countryWithFlagSelectNode,
-  Template: Template,
+  Template: TemplateWithFlag,
   optionList: countryWithFlagOptionList,
   css : {
     hide : 'hide',
@@ -58,4 +58,34 @@ countryWithFlagSelectNode.addEventListener('change', function(e) {
   /*
    * do what ever you want to do ...
    */
+});
+
+
+var countryWithFlagCompositeDropdown;
+var countryWithFlagCompositeSelectNode = document.getElementById('country-with-flag-composite');
+var mobileNumber = document.getElementById('mobile-number');
+var countryWithFlagCompositeOptionNodeList = Array.prototype.slice.call(countryWithFlagCompositeSelectNode.options);
+var countryWithFlagCompositeOptionList = [];
+
+countryWithFlagCompositeOptionNodeList.forEach(function(optionNode) {
+  countryWithFlagCompositeOptionList.push(optionNode.innerHTML.toLowerCase().trim());
+});
+
+countryWithFlagCompositeDropdown = new Dropdown({
+  selectNode: countryWithFlagCompositeSelectNode,
+  correspondingNode: mobileNumber,
+  Template: TemplateWithFlagComposite,
+  optionList: countryWithFlagCompositeOptionList,
+  css : {
+    hide : 'hide',
+    pseudoSelect: 'pseudo-select drop-down pseudo-select-composite',
+    pseudoSelectFocus: 'pseudo-select-focus',
+    options: 'options options-composite'
+  }
+});
+
+countryWithFlagCompositeDropdown.init();
+
+countryWithFlagCompositeSelectNode.addEventListener('change', function(e) {
+  mobileNumber.focus();
 });

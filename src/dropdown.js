@@ -9,6 +9,7 @@ if (typeof Event === 'function') {
 
 var Template = require('./template');
 var Dictionary = require('./dictionary');
+var StyleUpdater = require('./style-updater');
 
 function Dropdown(config) {
   var css;
@@ -16,6 +17,7 @@ function Dropdown(config) {
   this.selectNode = config.selectNode;
   this.selectedIndex = this.selectNode.selectedIndex;
   this.parentNode = config.parentNode || this.selectNode.parentNode;
+  this.correspondingNode = config.correspondingNode;
   this.Template = config.Template || Template;
 
   css = config.css;
@@ -57,7 +59,12 @@ function showOptions() {
   // set selectedIndex to the selectedIndex the actual selectNode
   this.selectedIndex = this.selectNode.selectedIndex;
   this.optionsContainer.classList.remove(this.css.hide);
-  this.pseudoSelectContainer.querySelector('a').classList.add(this.css.pseudoSelectFocus);
+  /* istanbul ignore next */
+  if(this.correspondingNode) {
+    this.correspondingNode.classList.add(this.css.pseudoSelectFocus);
+  } else {
+    this.pseudoSelectContainer.querySelector('a').classList.add(this.css.pseudoSelectFocus);
+  }
   focusOption.bind(this)();
   this.isVisible = true;
 }
@@ -88,14 +95,18 @@ function selectOption(e) {
   if(value !== this.selectNode.value) {
     this.pseudoSelectContainer.innerHTML = this.template.getPseudoSelectHTML(option);
     this.selectNode.value = value;
-    // dispatch change event on the selectNode
-    /* istanbul ignore next */
-    if(CHANGE_EVENT) {
-      this.selectNode.dispatchEvent(CHANGE_EVENT);
-    }
   }
   // focus the anchor tag
   this.pseudoSelectContainer.querySelector('a').focus();
+  /* istanbul ignore next */
+  if(this.correspondingNode) {
+    this.styleUpdater.adjustCorrespondingNodePadding();
+  }
+  // dispatch change event on the selectNode
+  /* istanbul ignore next */
+  if(CHANGE_EVENT) {
+    this.selectNode.dispatchEvent(CHANGE_EVENT);
+  }
   hideOptions.bind(this)();
 }
 
@@ -253,7 +264,12 @@ function injectDropdownContainer() {
   dropdownContainer.appendChild(pseudoSelectContainer);
   dropdownContainer.appendChild(optionsContainer);
 
-  this.parentNode.appendChild(dropdownContainer);
+  /* istanbul ignore next */
+  if(this.correspondingNode) {
+    this.parentNode.insertBefore(dropdownContainer, this.correspondingNode);
+  } else {
+    this.parentNode.appendChild(dropdownContainer);
+  }
 
   this.dropdownContainer = dropdownContainer;
   this.pseudoSelectContainer = pseudoSelectContainer;
@@ -275,6 +291,19 @@ Dropdown.prototype.init = function() {
   this.optionsContainer.addEventListener('keydown', optionsKeydownHandler.bind(this));
   this.optionsContainer.addEventListener('keypress', optionsKeypressHandler.bind(this));
   this.optionsContainer.addEventListener('mousemove', optionsMousemoveHandler.bind(this));
+
+  /* istanbul ignore next */
+  if(this.correspondingNode) {
+    this.styleUpdater = new StyleUpdater({
+      pseudoSelectContainer: this.pseudoSelectContainer,
+      correspondingNode: this.correspondingNode,
+      extraPadding: 10
+    });
+    this.styleUpdater.adjustCorrespondingNodePadding();
+    this.pseudoSelectContainer.querySelector('a').addEventListener('focus', function() {
+      this.correspondingNode.classList.add(this.css.pseudoSelectFocus);
+    }.bind(this));
+  }
 
   document.addEventListener('click', hideOptions.bind(this), false);
 };
