@@ -55,27 +55,23 @@ function focusOption() {
 }
 
 function showOptions() {
-  //if(!this.isVisible) {
-    // reinitialize selected index from the actual selectNode
-    // it would be used for keydown handler
-    this.selectedIndex = this.selectNode.selectedIndex;
-    this.optionsContainerNode.classList.remove(this.css.hide);
-    this.pseudoSelectNode.querySelector('a').classList.add(this.css.pseudoSelectFocus);
-    // this query would also be passed as the config.
-    focusOption.bind(this)();
-    this.isVisible = true;
-  //}
+  // reinitialize selected index from the actual selectNode
+  // it would be used for keydown handler
+  this.selectedIndex = this.selectNode.selectedIndex;
+  this.optionsContainer.classList.remove(this.css.hide);
+  this.pseudoSelectContainer.querySelector('a').classList.add(this.css.pseudoSelectFocus);
+  // this query would also be passed as the config.
+  focusOption.bind(this)();
+  this.isVisible = true;
 }
 
 function hideOptions() {
-  //if(this.isVisible) {
-    this.optionsContainerNode.classList.add(this.css.hide);
-    this.pseudoSelectNode.querySelector('a').classList.remove(this.css.pseudoSelectFocus);
-    this.isVisible = false;
-  //}
+  this.optionsContainer.classList.add(this.css.hide);
+  this.pseudoSelectContainer.querySelector('a').classList.remove(this.css.pseudoSelectFocus);
+  this.isVisible = false;
 }
 
-function showHideOptionsContainerNode(e) {
+function showHideOptionsContainer(e) {
   e.preventDefault();
   e.stopPropagation();
   if(this.isVisible) {
@@ -93,7 +89,7 @@ function selectOption(e) {
   value = option.getAttribute('data-value');
 
   if(value !== this.selectNode.value) {
-    this.pseudoSelectNode.innerHTML = this.template.getPseudoSelectHTML(option);
+    this.pseudoSelectContainer.innerHTML = this.template.getPseudoSelectHTML(option);
     this.selectNode.value = value;
     // dispatch change event on the selectNode
     /* istanbul ignore next */
@@ -102,7 +98,7 @@ function selectOption(e) {
     }
   }
   // focus the anchor tag
-  this.pseudoSelectNode.querySelector('a').focus();
+  this.pseudoSelectContainer.querySelector('a').focus();
   hideOptions.bind(this)();
 }
 
@@ -166,7 +162,7 @@ function optionsKeydownHandler(e) {
   }
 
   if(e.keyCode === 27) {
-    this.pseudoSelectNode.querySelector('a').focus();
+    this.pseudoSelectContainer.querySelector('a').focus();
   }
 
   // this will be used in optionsMousemoveHandler
@@ -230,56 +226,56 @@ function optionsMousemoveHandler(e) {
 function injectDropdownContainerNode() {
 
   var dropdownContainerNode;
-  var pseudoSelectNode;
-  var optionsContainerNode;
+  var pseudoSelectContainer;
+  var optionsContainer;
 
   /*
    * create a div (dropdownContainerNode) as the container
-   * to wrap pseudoSelectNode & optionsContainerNode
+   * to wrap pseudoSelectContainer & optionsContainer
    */
   dropdownContainerNode = document.createElement('div');
   dropdownContainerNode.classList.add('dropdown-container');
 
-  pseudoSelectNode = document.createElement('div');
-  pseudoSelectNode.innerHTML = this.template.getPseudoSelectHTML();
+  pseudoSelectContainer = document.createElement('div');
+  pseudoSelectContainer.innerHTML = this.template.getPseudoSelectHTML();
 
-  optionsContainerNode = document.createElement('div');
+  optionsContainer = document.createElement('div');
   /*
    * ToDo:
    * does not look clean
    * need to revist
    */
-  optionsContainerNode.classList.add(this.css.hide);
+  optionsContainer.classList.add(this.css.hide);
   this.css.options.split(' ').forEach(function(css) {
-    optionsContainerNode.classList.add(css); // hook to add styles
+    optionsContainer.classList.add(css); // hook to add styles
   });
-  optionsContainerNode.innerHTML = this.template.getOptionsContainerHTML();
+  optionsContainer.innerHTML = this.template.getOptionsContainerHTML();
 
-  dropdownContainerNode.appendChild(pseudoSelectNode);
-  dropdownContainerNode.appendChild(optionsContainerNode);
+  dropdownContainerNode.appendChild(pseudoSelectContainer);
+  dropdownContainerNode.appendChild(optionsContainer);
 
   this.parentNode.appendChild(dropdownContainerNode);
 
   this.dropdownContainerNode = dropdownContainerNode;
-  this.pseudoSelectNode = pseudoSelectNode;
-  this.optionsContainerNode = optionsContainerNode;
+  this.pseudoSelectContainer = pseudoSelectContainer;
+  this.optionsContainer = optionsContainer;
 }
 
 Dropdown.prototype.init = function() {
   injectDropdownContainerNode.bind(this)();
 
-  this.optionNodeList = Array.prototype.slice.call(this.optionsContainerNode.querySelectorAll('a'));
+  this.optionNodeList = Array.prototype.slice.call(this.optionsContainer.querySelectorAll('a'));
 
   this.selectNode.classList.add(this.css.hide);
 
-  this.pseudoSelectNode.addEventListener('click', showHideOptionsContainerNode.bind(this));
-  this.pseudoSelectNode.addEventListener('keydown', pseudoSelectKeydownHandler.bind(this));
-  this.pseudoSelectNode.addEventListener('keypress', pseudoSelectKeypressHandler.bind(this));
+  this.pseudoSelectContainer.addEventListener('click', showHideOptionsContainer.bind(this));
+  this.pseudoSelectContainer.addEventListener('keydown', pseudoSelectKeydownHandler.bind(this));
+  this.pseudoSelectContainer.addEventListener('keypress', pseudoSelectKeypressHandler.bind(this));
 
-  this.optionsContainerNode.addEventListener('click', selectOption.bind(this));
-  this.optionsContainerNode.addEventListener('keydown', optionsKeydownHandler.bind(this));
-  this.optionsContainerNode.addEventListener('keypress', optionsKeypressHandler.bind(this));
-  this.optionsContainerNode.addEventListener('mousemove', optionsMousemoveHandler.bind(this));
+  this.optionsContainer.addEventListener('click', selectOption.bind(this));
+  this.optionsContainer.addEventListener('keydown', optionsKeydownHandler.bind(this));
+  this.optionsContainer.addEventListener('keypress', optionsKeypressHandler.bind(this));
+  this.optionsContainer.addEventListener('mousemove', optionsMousemoveHandler.bind(this));
   document.addEventListener('click', hideOptions.bind(this), false);
 };
 

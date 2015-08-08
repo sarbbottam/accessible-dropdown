@@ -30,8 +30,11 @@ describe('Dropdown', function() {
   var optionNodeList;
   var optionList = [];
   var dropdownContainer;
-  var pseudoSelect;
-  var options;
+  var pseudoSelectNode;
+  var optionsContainer;
+  var desiredOption;
+  var selectedOption;
+
 
   before(function() {
     wrapper = document.createElement('div');
@@ -56,11 +59,6 @@ describe('Dropdown', function() {
       }
     });
 
-    dropdown.init();
-    dropdownContainer = document.querySelector('.dropdown-container');
-    pseudoSelect = dropdownContainer.querySelector('.pseudo-select');
-    options = dropdownContainer.querySelector('.options');
-
   });
 
   it('should be a function', function() {
@@ -73,41 +71,43 @@ describe('Dropdown', function() {
 
   describe('init', function() {
     it('should create the custom dropdown markup', function() {
+      dropdown.init();
+      dropdownContainer = document.querySelector('.dropdown-container');
+      pseudoSelectNode = dropdownContainer.querySelector('.pseudo-select');
+      optionsContainer = dropdownContainer.querySelector('.options');
+      optionList = Array.prototype.slice.call(optionsContainer.querySelectorAll('a'));
+
       assert.ok(dropdownContainer);
     });
 
     it('should hide the options container', function() {
-      assert.isTrue(options.classList.contains('hide'));
+      assert.isTrue(optionsContainer.classList.contains('hide'));
     });
   });
 
   describe('pseudo select click handlers', function() {
     it('should show the options if hidden when pseudo select is clicked', function() {
-      event.triggerClickEvent(pseudoSelect);
-      assert.isFalse(options.classList.contains('hide'));
+      event.triggerClickEvent(pseudoSelectNode);
+      assert.isFalse(optionsContainer.classList.contains('hide'));
     });
 
     it('should hide the options if visible when pseudo select is clicked', function() {
-      event.triggerClickEvent(pseudoSelect);
-      assert.isTrue(options.classList.contains('hide'));
+      event.triggerClickEvent(pseudoSelectNode);
+      assert.isTrue(optionsContainer.classList.contains('hide'));
     });
   });
 
   describe('options click handlers', function() {
 
     it('should select the current option (anchor tag) when clicked', function() {
-      var desiredOption;
-      var selectedOption;
-      desiredOption = Array.prototype.slice.call(options.querySelectorAll('a'))[2];
+      desiredOption = optionList[2];
       event.triggerClickEvent(desiredOption);
       selectedOption = dropdownContainer.querySelector('.pseudo-select').innerHTML;
       assert.equal(desiredOption.innerHTML, selectedOption);
     });
 
     it('should not update the selected option if the same option (anchor tag) is clicked again', function() {
-      var desiredOption;
-      var selectedOption;
-      desiredOption = Array.prototype.slice.call(options.querySelectorAll('a'))[2];
+      desiredOption = optionList[2];
       event.triggerClickEvent(desiredOption);
       selectedOption = dropdownContainer.querySelector('.pseudo-select').innerHTML;
       assert.equal(desiredOption.innerHTML, selectedOption);
@@ -117,18 +117,14 @@ describe('Dropdown', function() {
     });
 
     it('should select the current option (li tag) when clicked', function() {
-      var desiredOption;
-      var selectedOption;
-      desiredOption = Array.prototype.slice.call(options.querySelectorAll('li'))[3];
+      desiredOption = Array.prototype.slice.call(optionsContainer.querySelectorAll('li'))[3];
       event.triggerClickEvent(desiredOption);
       selectedOption = dropdownContainer.querySelector('.pseudo-select').innerHTML;
       assert.equal(desiredOption.querySelector('a').innerHTML, selectedOption);
     });
 
     it('should not update the selected option if the same option (li tag) is clicked again', function() {
-      var desiredOption;
-      var selectedOption;
-      desiredOption = Array.prototype.slice.call(options.querySelectorAll('li'))[3];
+      desiredOption = Array.prototype.slice.call(optionsContainer.querySelectorAll('li'))[3];
       event.triggerClickEvent(desiredOption);
       selectedOption = dropdownContainer.querySelector('.pseudo-select').innerHTML;
       assert.equal(desiredOption.querySelector('a').innerHTML, selectedOption);
@@ -142,86 +138,76 @@ describe('Dropdown', function() {
   describe('options keydown handlers', function() {
 
     it('should highlight the last option on presssing end ', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 35);
-      assert.equal(document.activeElement, desiredOptions[desiredOptions.length - 1]);
+      event.triggerKeydownEvent(optionsContainer, 35);
+      assert.equal(document.activeElement, optionList[optionList.length - 1]);
     });
 
     it('should highlight the first option on presssing home ', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 36);
-      assert.equal(document.activeElement, desiredOptions[0]);
+      event.triggerKeydownEvent(optionsContainer, 36);
+      assert.equal(document.activeElement, optionList[0]);
     });
 
     it('should highlight the next option on presssing down arrow ', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 36);
-      event.triggerKeydownEvent(options, 40);
-      assert.equal(document.activeElement, desiredOptions[1]);
+      event.triggerKeydownEvent(optionsContainer, 36);
+      event.triggerKeydownEvent(optionsContainer, 40);
+      assert.equal(document.activeElement, optionList[1]);
     });
 
     it('should keep the last option highlighted on pressing down arrow if the last option is already highlighted ', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 35);
-      event.triggerKeydownEvent(options, 40);
-      assert.equal(document.activeElement, desiredOptions[desiredOptions.length - 1]);
+      event.triggerKeydownEvent(optionsContainer, 35);
+      event.triggerKeydownEvent(optionsContainer, 40);
+      assert.equal(document.activeElement, optionList[optionList.length - 1]);
     });
 
     it('should highlight the previous option on presssing up arrow ', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 35);
-      event.triggerKeydownEvent(options, 38);
-      assert.equal(document.activeElement, desiredOptions[desiredOptions.length - 2]);
+      event.triggerKeydownEvent(optionsContainer, 35);
+      event.triggerKeydownEvent(optionsContainer, 38);
+      assert.equal(document.activeElement, optionList[optionList.length - 2]);
     });
 
     it('should keep the first option highlighted on pressing up arrow if the first option is already highlighted ', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 36);
-      event.triggerKeydownEvent(options, 38);
-      assert.equal(document.activeElement, desiredOptions[0]);
+      event.triggerKeydownEvent(optionsContainer, 36);
+      event.triggerKeydownEvent(optionsContainer, 38);
+      assert.equal(document.activeElement, optionList[0]);
     });
 
     it('should highlight the next fifth option on presssing page down', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 36);
-      event.triggerKeydownEvent(options, 34);
-      assert.equal(document.activeElement, desiredOptions[5]);
+      event.triggerKeydownEvent(optionsContainer, 36);
+      event.triggerKeydownEvent(optionsContainer, 34);
+      assert.equal(document.activeElement, optionList[5]);
     });
 
     it('should highlight the last option on presssing page down if the desired index is more than the limit', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 35);
-      event.triggerKeydownEvent(options, 38);
-      event.triggerKeydownEvent(options, 38);
-      event.triggerKeydownEvent(options, 34);
-      assert.equal(document.activeElement, desiredOptions[desiredOptions.length - 1]);
+      event.triggerKeydownEvent(optionsContainer, 35);
+      event.triggerKeydownEvent(optionsContainer, 38);
+      event.triggerKeydownEvent(optionsContainer, 38);
+      event.triggerKeydownEvent(optionsContainer, 34);
+      assert.equal(document.activeElement, optionList[optionList.length - 1]);
     });
 
     it('should highlight the previous fifth option on presssing page up', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 35);
-      event.triggerKeydownEvent(options, 33);
-      assert.equal(document.activeElement, desiredOptions[desiredOptions.length - 6]);
+      event.triggerKeydownEvent(optionsContainer, 35);
+      event.triggerKeydownEvent(optionsContainer, 33);
+      assert.equal(document.activeElement, optionList[optionList.length - 6]);
     });
 
     it('should highlight the first option on presssing page up if the desired index is less than the limit', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeydownEvent(options, 36);
-      event.triggerKeydownEvent(options, 40);
-      event.triggerKeydownEvent(options, 40);
-      event.triggerKeydownEvent(options, 33);
-      assert.equal(document.activeElement, desiredOptions[0]);
+      event.triggerKeydownEvent(optionsContainer, 36);
+      event.triggerKeydownEvent(optionsContainer, 40);
+      event.triggerKeydownEvent(optionsContainer, 40);
+      event.triggerKeydownEvent(optionsContainer, 33);
+      assert.equal(document.activeElement, optionList[0]);
     });
 
     it('should hide the options if visible when esc is pressed', function() {
-      event.triggerKeydownEvent(options, 27);
-      assert.isTrue(options.classList.contains('hide'));
+      event.triggerKeydownEvent(optionsContainer, 27);
+      assert.isTrue(optionsContainer.classList.contains('hide'));
       assert.equal(dropdownContainer.querySelector('.pseudo-select'), document.activeElement);
     });
 
     it('should hide the options if visible when tab is pressed', function() {
-      event.triggerKeydownEvent(options, 9);
-      assert.isTrue(options.classList.contains('hide'));
+      event.triggerKeydownEvent(optionsContainer, 9);
+      assert.isTrue(optionsContainer.classList.contains('hide'));
     });
 
   });
@@ -230,26 +216,23 @@ describe('Dropdown', function() {
 
     // a better test title please
     it('should highlight the option Bangladesh', function(done) {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeypressEvent(options, 66);
-      event.triggerKeypressEvent(options, 65);
-      assert.equal(document.activeElement, desiredOptions[1]);
+      event.triggerKeypressEvent(optionsContainer, 66);
+      event.triggerKeypressEvent(optionsContainer, 65);
+      assert.equal(document.activeElement, optionList[1]);
       setTimeout(function() {
-        event.triggerKeypressEvent(options, 66);
-        assert.equal(document.activeElement, desiredOptions[1]);
+        event.triggerKeypressEvent(optionsContainer, 66);
+        assert.equal(document.activeElement, optionList[1]);
         done();
       }, 555);
     });
 
     // a better test title please
     it('should highlight the option Afghanistan', function(done) {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerKeypressEvent(options, 66);
-      event.triggerKeypressEvent(options, 65);
-      //assert.equal(document.activeElement, desiredOptions[1]);
+      event.triggerKeypressEvent(optionsContainer, 66);
+      event.triggerKeypressEvent(optionsContainer, 65);
       setTimeout(function() {
-        event.triggerKeypressEvent(options, 65);
-        assert.equal(document.activeElement, desiredOptions[0]);
+        event.triggerKeypressEvent(optionsContainer, 65);
+        assert.equal(document.activeElement, optionList[0]);
         done();
       }, 555);
     });
@@ -259,11 +242,10 @@ describe('Dropdown', function() {
   describe('options mousemove handlers', function() {
 
     it('should highlight the option Afghanistan', function() {
-      var desiredOptions = Array.prototype.slice.call(options.querySelectorAll('a'));
-      event.triggerMousemoveEvent(options);
-      event.triggerMousemoveEvent(options);
-      event.triggerMousemoveEvent(options);
-      assert.equal(document.activeElement, desiredOptions[0]);
+      event.triggerMousemoveEvent(optionsContainer);
+      event.triggerMousemoveEvent(optionsContainer);
+      event.triggerMousemoveEvent(optionsContainer);
+      assert.equal(document.activeElement, optionList[0]);
     });
 
   });
@@ -272,7 +254,7 @@ describe('Dropdown', function() {
 
     it('should show the options', function() {
       event.triggerKeypressEvent(dropdownContainer.querySelector('div'), 66);
-      assert.isFalse(options.classList.contains('hide'));
+      assert.isFalse(optionsContainer.classList.contains('hide'));
     });
 
   });
@@ -282,7 +264,7 @@ describe('Dropdown', function() {
     it('should show the options', function() {
       event.triggerKeydownEvent(dropdownContainer.querySelector('div'), 20);
       event.triggerKeydownEvent(dropdownContainer.querySelector('div'), 40);
-      assert.isFalse(options.classList.contains('hide'));
+      assert.isFalse(optionsContainer.classList.contains('hide'));
     });
 
   });
