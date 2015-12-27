@@ -4,23 +4,14 @@ function Index(optionList) {
   this.optionList = optionList;
 }
 
-function getFirstIndexOfDesiredOption(optionList, index, desiredOptionStartsWith) {
-  var substrLength = desiredOptionStartsWith.length;
-  while (index >= 0) {
-    if(optionList[index].substr(0, substrLength) !== desiredOptionStartsWith) {
-      break;
-    }
-    index -= 1;
-  }
-  return index + 1;
-}
-
+// returns the index of the first desired option
 Index.prototype.getIndexOfDesiredOption = function(desiredOptionStartsWith) {
 
   var optionList = this.optionList;
   var low = 0, high = optionList.length - 1, mid;
   var currentOptionStartsWith;
   var substrLength = desiredOptionStartsWith.length;
+  var desiredOption = -1;
 
   while (low <= high) {
     mid = Math.floor((low + high) / 2) || 0;
@@ -33,11 +24,12 @@ Index.prototype.getIndexOfDesiredOption = function(desiredOptionStartsWith) {
       high = mid - 1;
     }
     else {
-      return getFirstIndexOfDesiredOption(this.optionList, mid, desiredOptionStartsWith);
+      desiredOption = mid;
+      high = mid - 1;
     }
   }
 
-  return -1;
+  return desiredOption;
 };
 
 module.exports = Index;
