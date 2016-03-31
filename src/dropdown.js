@@ -188,6 +188,7 @@ function optionsKeypressHandler(e) {
   var desiredOptionIndex = 0;
 
   // firefox listens to keypress for tab with charcode 0
+  /* istanbul ignore next */
   if (charCode === 0) {
     return;
   }
@@ -228,6 +229,7 @@ function pseudoSelectKeypressHandler(e) {
   var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
 
   // firefox listens to keypress for tab with charcode 0
+  /* istanbul ignore next */
   if (charCode === 0) {
     return;
   }
