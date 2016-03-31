@@ -222,9 +222,17 @@ function pseudoSelectKeydownHandler(e) {
   }
 }
 
-// function pseudoSelectKeypressHandler() {
-//   showOptions.bind(this)();
-// }
+function pseudoSelectKeypressHandler(e) {
+  // http://stackoverflow.com/questions/7330724/event-keycode-not-returning-correct-values-in-firefox#answer-7330817
+  /* istanbul ignore next */
+  var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
+
+  // firefox listens to keypress for tab with charcode 0
+  if (charCode === 0) {
+    return;
+  }
+  showOptions.bind(this)();
+}
 
 function optionsMousemoveHandler(e) {
 
@@ -290,7 +298,7 @@ Dropdown.prototype.init = function() {
 
   this.pseudoSelectContainer.addEventListener('click', showHideOptionsContainer.bind(this));
   this.pseudoSelectContainer.addEventListener('keydown', pseudoSelectKeydownHandler.bind(this));
-  // this.pseudoSelectContainer.addEventListener('keypress', pseudoSelectKeypressHandler.bind(this));
+  this.pseudoSelectContainer.addEventListener('keypress', pseudoSelectKeypressHandler.bind(this));
 
   this.optionsContainer.addEventListener('click', selectOption.bind(this));
   this.optionsContainer.addEventListener('keydown', optionsKeydownHandler.bind(this));
