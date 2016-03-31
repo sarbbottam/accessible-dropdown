@@ -187,6 +187,11 @@ function optionsKeypressHandler(e) {
   var charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
   var desiredOptionIndex = 0;
 
+  // firefox listens to keypress for tab with charcode 0
+  if (charCode === 0) {
+    return;
+  }
+
   e.preventDefault();
   e.stopPropagation();
 
