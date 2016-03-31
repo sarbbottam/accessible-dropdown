@@ -217,9 +217,9 @@ function pseudoSelectKeydownHandler(e) {
   }
 }
 
-function pseudoSelectKeypressHandler() {
-  showOptions.bind(this)();
-}
+// function pseudoSelectKeypressHandler() {
+//   showOptions.bind(this)();
+// }
 
 function optionsMousemoveHandler(e) {
 
@@ -285,7 +285,7 @@ Dropdown.prototype.init = function() {
 
   this.pseudoSelectContainer.addEventListener('click', showHideOptionsContainer.bind(this));
   this.pseudoSelectContainer.addEventListener('keydown', pseudoSelectKeydownHandler.bind(this));
-  this.pseudoSelectContainer.addEventListener('keypress', pseudoSelectKeypressHandler.bind(this));
+  // this.pseudoSelectContainer.addEventListener('keypress', pseudoSelectKeypressHandler.bind(this));
 
   this.optionsContainer.addEventListener('click', selectOption.bind(this));
   this.optionsContainer.addEventListener('keydown', optionsKeydownHandler.bind(this));
