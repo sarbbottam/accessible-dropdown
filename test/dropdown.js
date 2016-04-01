@@ -255,6 +255,9 @@ describe('Dropdown', function() {
     it('should show the options', function() {
       event.triggerKeypressEvent(dropdownContainer.querySelector('div'), 66);
       assert.isFalse(optionsContainer.classList.contains('hide'));
+
+      event.triggerKeypressEvent(dropdownContainer.querySelector('div'), 32);
+      assert.isFalse(optionsContainer.classList.contains('hide'));
     });
 
   });

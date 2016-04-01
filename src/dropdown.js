@@ -233,6 +233,10 @@ function pseudoSelectKeypressHandler(e) {
   if (charCode === 0) {
     return;
   }
+  if(charCode === 32) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   showOptions.bind(this)();
 }
 
