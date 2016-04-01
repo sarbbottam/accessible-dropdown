@@ -275,6 +275,7 @@ function injectDropdownContainer() {
 
   optionsContainer = document.createElement('div');
   optionsContainer.classList.add(this.css.hide);
+  optionsContainer.setAttribute('tabindex', '-1');
   this.css.options.split(' ').forEach(function(css) {
     optionsContainer.classList.add(css);
   });
