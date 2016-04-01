@@ -22,7 +22,7 @@ Template.prototype.getPseudoSelectHTML = function(option) {
 
   label = this.title + ' ' + optionText.replace(/\<span.*span\>/, '');
 
-  pseudoSelectHTML.push('<a href="#" class="' + this.css.pseudoSelect + '" role="button" aria-haspopup="true" aria-expanded="false" aria-label="' + label + '">');
+  pseudoSelectHTML.push('<a href="#" class="' + this.css.pseudoSelect + '" role="button" aria-expanded="false" aria-label="' + label + '">');
   if(option) {
     pseudoSelectHTML.push(optionText);
   } else {

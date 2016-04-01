@@ -59,6 +59,7 @@ function showOptions() {
   // set selectedIndex to the selectedIndex the actual selectNode
   this.selectedIndex = this.selectNode.selectedIndex;
   this.optionsContainer.classList.remove(this.css.hide);
+  this.pseudoSelectContainer.querySelector('a').setAttribute('aria-expanded', true);
   /* istanbul ignore next */
   if(this.correspondingNode) {
     this.correspondingNode.classList.add(this.css.pseudoSelectFocus);
@@ -72,6 +73,7 @@ function showOptions() {
 function hideOptions() {
   this.optionsContainer.classList.add(this.css.hide);
   this.pseudoSelectContainer.querySelector('a').classList.remove(this.css.pseudoSelectFocus);
+  this.pseudoSelectContainer.querySelector('a').setAttribute('aria-expanded', false);
   this.isVisible = false;
 }
 
