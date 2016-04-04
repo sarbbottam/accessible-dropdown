@@ -30,7 +30,7 @@
     "test": "grunt js:ci",
     "deploy": "./script/deploy.sh",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "dev": "grunt dev"
+    "dev": "grunt js"
   },
   "repository": {
     "type": "git",
