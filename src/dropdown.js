@@ -330,6 +330,10 @@ Dropdown.prototype.init = function() {
     this.pseudoSelectContainer.querySelector('a').addEventListener('focus', function() {
       this.correspondingNode.classList.add(this.css.pseudoSelectFocus);
     }.bind(this));
+
+    this.correspondingNode.addEventListener('focus', function() {
+      this.correspondingNode.classList.remove(this.css.pseudoSelectFocus);
+    }.bind(this));
   }
 
   document.addEventListener('click', hideOptions.bind(this), false);
