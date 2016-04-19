@@ -125,11 +125,13 @@ function optionsKeydownHandler(e) {
    * page down     34
    * tab           9
    * esc           27
+   * space         32
    */
 
   if(e.keyCode === 38 || e.keyCode === 40 ||
       e.keyCode === 35 || e.keyCode === 36 ||
-      e.keyCode === 33 || e.keyCode === 34) {
+      e.keyCode === 33 || e.keyCode === 34 ||
+      e.keyCode === 32) {
 
     e.preventDefault();
     e.stopPropagation();
@@ -164,6 +166,9 @@ function optionsKeydownHandler(e) {
         if(this.selectedIndex >= optionListLength) {
           this.selectedIndex = optionListLength - 1;
         }
+        break;
+      case 32: // space
+        selectOption.bind(this)(e);
         break;
     }
   }

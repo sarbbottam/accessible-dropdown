@@ -210,6 +210,11 @@ describe('Dropdown', function() {
       assert.isTrue(optionsContainer.classList.contains('hide'));
     });
 
+    it('should select the current option', function() {
+      event.triggerKeydownEvent(optionsContainer, 32);
+      assert.isTrue(optionsContainer.classList.contains('hide'));
+    });
+
   });
 
   describe('options keypress handlers', function() {
