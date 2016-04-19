@@ -66,6 +66,7 @@
 
 .pseudo-select-composite:focus {
   border: 0;
+  background: #e3edf7;
 }
 
 .options-composite {
