@@ -1,7 +1,6 @@
 {
   "name": "accessible-dropdown",
   "version": "0.0.0",
-  "private": true,
   "author": "Sarbbottam Bandyopadhyay",
   "description": "accessible dropdown",
   "devDependencies": {
