@@ -39,4 +39,54 @@ It takes care of the following just like native select/option, out of the box fo
 
 ## Demo
 
-Check out http://sarbbottam.github.io/accessible-dropdown/.
+Check out http://sarbbottam.github.io/accessible-dropdown/
+
+## Usage
+
+```sh
+npm i accessible-dropdown -S
+```
+
+```js
+var Dropdown = require('accessible-dropdown');
+
+// refer the following files for sample templates
+// https://github.com/sarbbottam/accessible-dropdown/blob/master/src/template.js
+// https://github.com/sarbbottam/accessible-dropdown/blob/master/example/template-with-flag.js
+// https://github.com/sarbbottam/accessible-dropdown/blob/master/example/template-with-flag-composite.js
+var Template = require('./path/to/template');
+
+var dropdown;
+var selectNode = document.getElementById('select');
+var optionNodeList = Array.prototype.slice.call(selectNode.options);
+var optionList = [];
+
+optionNodeList.forEach(function(optionNode) {
+  optionList.push(optionNode.innerHTML.toLowerCase().trim());
+});
+
+countryDropdown = new Dropdown({
+  selectNode: selectNode,
+  optionList: optionList,
+  css : {
+    hide : 'hide',
+    pseudoSelect: 'pseudo-select drop-down',
+    pseudoSelectFocus: 'pseudo-select-focus',
+    options: 'options'
+  }
+});
+
+countryDropdown.init();
+
+selectNode.addEventListener('change', function(e) {
+  /*
+   * do what ever you want to do ...
+   */
+});
+```
+
+Refer [example folder](https://github.com/sarbbottam/accessible-dropdown/tree/master/example) for [working example](http://sarbbottam.github.io/accessible-dropdown/).
+
+### Note
+
+This works in mobile too, but don't use it if you care about your users, native option/picker is much more usable.
