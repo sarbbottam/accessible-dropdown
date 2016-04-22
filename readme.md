@@ -90,3 +90,7 @@ Refer [example folder](https://github.com/sarbbottam/accessible-dropdown/tree/ma
 ### Note
 
 This works in mobile too, but don't use it if you care about your users, native option/picker is much more usable.
+
+## License
+
+MIT © [Sarbbottam Bandyopadhyay](https://twitter.com/sarbbottam)
