@@ -3,6 +3,7 @@ node_js:
 - stable
 script:
 - npm test
+- npm run example
 - npm run-script deploy
 after_script:
 - npm run coveralls
