@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "author": "Sarbbottam Bandyopadhyay",
   "description": "accessible dropdown",
+  "main": "src/dropdown.js",
+  "files": [
+    "src"
+  ],
   "devDependencies": {
     "chai": "^3.0.0",
     "coveralls": "^2.11.2",
