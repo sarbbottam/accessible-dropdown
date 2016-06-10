@@ -330,6 +330,11 @@ Dropdown.prototype.init = function() {
     this.pseudoSelectContainer.querySelector('a').addEventListener('focus', function() {
       this.correspondingNode.classList.add(this.css.pseudoSelectFocus);
     }.bind(this));
+    this.pseudoSelectContainer.querySelector('a').addEventListener('blur', function() {
+      if(this.optionsContainer.classList.contains('hide')) {
+        this.correspondingNode.classList.remove(this.css.pseudoSelectFocus);
+      }
+    }.bind(this));
 
     this.correspondingNode.addEventListener('focus', function() {
       this.correspondingNode.classList.remove(this.css.pseudoSelectFocus);
