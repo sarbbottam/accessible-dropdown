@@ -1,0 +1,76 @@
+/*
+ * ToDo:
+ * clean up css
+ */
+
+.pseudo-select {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.pseudo-select-focus {
+  border: 1px solid #198fff;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  outline: none;
+}
+
+.pseudo-select:focus {
+  border: 1px solid #198fff;
+  outline: none;
+}
+
+.options {
+  max-height: 200px;
+  overflow: scroll;
+  border: 1px solid #198fff;
+  border-top: 0;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  background: #fff;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
+
+.options li {
+  height: 40px;
+  line-height: 40px;
+}
+
+.options a {
+  display: inline-block;
+  font-size: 18px;
+  color: #101010;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+}
+
+.options a:focus {
+  background: #198fff;
+  color: #fff;
+  outline: none;
+}
+
+.pseudo-select-composite {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  height: 42px;
+  border: 0;
+  width: auto;
+  padding-right: 20px;
+}
+
+.pseudo-select-composite:focus {
+  border: 0;
+  background: #e3edf7;
+}
+
+.options-composite {
+  margin-top: 44px;
+}
+
